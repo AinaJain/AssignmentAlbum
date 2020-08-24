@@ -34,7 +34,10 @@ class ViewController: UIViewController, UISearchResultsUpdating {
     
     @objc func didTapSortButton() {
         let sortingVC = SortingTableViewController()
-        
+        sortingVC.onUpdateCompletion = { [weak self] sorter in
+            self?.viewModel.updateTableOrder(with: sorter)
+            self?.albumTableView.reloadData()
+        }
         sortingVC.modalPresentationStyle = .formSheet
         self.present(sortingVC, animated: true, completion: nil)
     }

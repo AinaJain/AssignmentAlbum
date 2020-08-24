@@ -10,8 +10,10 @@ import UIKit
 
 class SortingTableViewController: UITableViewController {
     
-    let sortingArray = SortingTypes.allCases.map({"\($0)"})
+    let sortingArray = SortingTypes.allCases.map({"\($0.rawValue)"})
     let cellReuseIdentifier = "SortCell"
+    var onUpdateCompletion: ((SortingTypes) -> Void)?
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         self.tableView.register(UITableViewCell.self, forCellReuseIdentifier: cellReuseIdentifier)
@@ -35,4 +37,12 @@ class SortingTableViewController: UITableViewController {
         return cell
     }
 
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        if let cell = tableView.cellForRow(at: indexPath),
+            let selectedValue = SortingTypes(rawValue: cell.textLabel?.text ?? "") {
+            onUpdateCompletion?(selectedValue)
+        }
+        self.dismiss(animated: true, completion: nil)
+    }
 }
+

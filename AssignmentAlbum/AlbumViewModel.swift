@@ -8,12 +8,13 @@
 
 import UIKit
 
-enum SortingTypes: CaseIterable {
-    case releaseDate,
-    collectionName,
-    trackName,
-    artistName,
-    collectionPrice// Descending
+enum SortingTypes: String, CaseIterable {
+    case releaseDate = "Release Date",
+    collectionName = "Collection Name",
+    trackName = "Track Name",
+    artistName = "Artist Name",
+    collectionPrice = "Collection Price(Descending)"
+    
 }
 
 class AlbumViewModel: NSObject {
@@ -42,6 +43,10 @@ class AlbumViewModel: NSObject {
     func getDatasourceArray(isFilterOn: Bool) -> [AlbumModel]? {
         let array = isFilterOn ? filteredAlbums : albums
         return array
+    }
+    
+    func updateTableOrder(with sorter: SortingTypes) {
+        albums = sortBy(albums: albums, sorter: sorter)
     }
     
     func sortBy(albums: [AlbumModel]?, sorter: SortingTypes) -> [AlbumModel]? {
